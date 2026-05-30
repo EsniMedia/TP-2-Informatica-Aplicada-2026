@@ -1,5 +1,6 @@
 let galeria;
 let pagina = 0;
+let fuente;
 
 let imagen1;
 let imagen2;
@@ -32,6 +33,7 @@ function preload () {
     imagen11 = loadImage ("img/11.jpg");
     imagen12 = loadImage ("img/12.jpg");
     imagen13 = loadImage ("img/13.jpg");
+    fuente = loadFont("fonts/Metamorphous-Regular.ttf")
 
 
 }
@@ -47,6 +49,7 @@ function setup() {
 
 function draw() {
   background(220);
+  textFont(fuente);
 
 
 
@@ -55,15 +58,76 @@ function draw() {
   algo de lo que hice me preguntas y lo charlamos para que funcione
   pero creo que vas a estar bien */
 
-  image (galeria[pagina].imagen, 200, 200, 200, 200);
+  image (galeria[pagina].imagen, 0, 0, 600, 400);
   text (galeria[pagina].texto, 400, 400);
 
-  //boton de prueba para ver funcionamiento páginas
+ //caja de texto
+  let degradado = drawingContext.createLinearGradient(0, 285, 0, 400); //declaramos un valor para degradado
+  degradado.addColorStop(0, 'rgba(0, 0, 0, 0.35)'); // arranca en 35%
+  degradado.addColorStop(1, 'rgba(0, 0, 0, 1.0)');  // termina en negro 100%
 
-  //boton1
-  ellipse (100, 100, 100, 100)
-  //boton2
-  ellipse (300, 100, 100, 100)
+  drawingContext.fillStyle = degradado;//rellenamos la proxima forma
+  noStroke();
+  rect(0, 285, 600, 115); // dibujamos el rectángulo que se le aplica el degradado
+
+
+  //texto narrativo
+  noStroke();
+  fill(255);
+  textSize(10);
+  textAlign(LEFT, TOP);
+  textWrap(WORD); 
+  text(galeria[pagina].texto, 25, 295, 550, 60);
+  //texto botones
+  textAlign(CENTER, CENTER);
+  textSize(12);
+  text("¿Qué decides hacer?", 300, 355);
+
+
+
+  //botones tomy. hice un rect con border redondeados.
+  /*HAY QUE HACER Q EL TEXTO DE LOS BOTONS Y EL NARRATIVO CAMBIE SEGUN LA PAGINA Y EL CONTENIDO */
+  // boton izuqierda
+  fill(220);
+  rectMode(CENTER);
+  rect(250, 380, 80, 23, 10);
+  
+  // boton derecha
+  rect(350, 380, 80, 23, 10);
+
+  
+  rectMode(CORNER); // reseteo el modo de rect para no romper otras cosas
+
+  // Texto de los botones
+  textAlign(CENTER, CENTER);
+  fill(0); // Texto negro adentro de los botones
+  textSize(11);
+  text("Entrar", 250, 380);
+  text("Ignorar", 350, 380);
+
+
+
+
+
+
+
+  // ESTE ES EL INVENTARIO DE OBJETOS, SI AGARRAMOS UN OBJETO LO TENDRIAMOS Q UBICAR EN ESTOS CUADRADOS
+  textAlign(LEFT, TOP);
+  textSize(14); 
+  fill(255);
+  stroke(0); 
+  strokeWeight(3);     
+  text("Objetos", 25, 35);
+
+  noStroke();
+  fill(50, 50, 50, 200); 
+  
+  rect(25, 65, 50, 50);  
+  
+  rect(25, 130, 50, 50); 
+  
+  rect(25, 195, 50, 50);
+
 
   console.log (pagina);
 
@@ -167,12 +231,11 @@ y poder probarlo bien*/
 
  function mousePressed () {
 
-      let radioBoton1 = 50;
-      let boton1 = dist(mouseX, mouseY, 100, 100);
+      let radioBoton1 = 30;
+      let boton1 = dist(mouseX, mouseY, 250, 380);
 
-      let radioBoton2 = 50;
-      let boton2 = dist(mouseX, mouseY, 300, 100);
-
+      let radioBoton2 = 30;
+      let boton2 = dist(mouseX, mouseY, 350, 380);
 
       if (boton1 < radioBoton1 && pagina < 12) {
 
