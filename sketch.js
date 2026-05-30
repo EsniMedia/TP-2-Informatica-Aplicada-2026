@@ -118,9 +118,9 @@ function crearGaleria () {
 //___________________FUNCIONES PARA CAMBIAR PAGINAS______________________
 
 /* hice una que suma una página y después para cada bifurcación una que 
-actualiza directamente el valor de la variable página a la página correspondiente
+actualiza directamente el valor de la variable "pagina" a la página correspondiente
 solo habría que llamar a cada función en el valor de página adecuado junto con
-el mouseClicked*/
+el mouusePressed*/
 
 function pasarPagina () {
 
