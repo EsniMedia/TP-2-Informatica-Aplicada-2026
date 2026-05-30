@@ -1,6 +1,14 @@
 let galeria;
-let pagina = 0;
+let pagina = 1;
 let fuente;
+let inventario = ["objeto inicial"];
+let objetoSostenido = null;
+let enemigos = {
+  5: true,  // Enemigo de la página 5 vivo
+  9: true,  // Enemigo de la página 9 vivo
+  10: true, // Enemigo de la página 10 vivo
+};
+
 
 let imagen1;
 let imagen2;
@@ -128,6 +136,90 @@ function draw() {
   
   rect(25, 195, 50, 50);
 
+  if (inventario.length > 0) {
+    fill(0, 255, 0); // Lo pintamos de verde por ahora para reconocerlo CANDE TENDRIAS Q BORRARLO Y CAMBIARLO POR UN PNG ACA Y EN EL RESTO DE OBJ
+    rect(25, 65, 50, 50); // Se dibuja sobre el primer recuadro gris
+  }
+
+
+  // esto habria q cambiarlo por imagenes
+  if (objetoSostenido !== null) {
+    
+    // Le asignamos el color según el objeto que tengamos agarrado
+    if (objetoSostenido === "ObjetoInicial") {
+      fill(0, 255, 0); // Verde
+    } else if (objetoSostenido === "ObjetoRojo") {
+      fill(255, 0, 0); // Rojo
+    } else if (objetoSostenido === "ObjetoAzul") {
+      fill(0, 0, 255); // Azul
+    }
+
+    noStroke();
+    rectMode(CENTER);
+    rect(mouseX, mouseY, 30, 30); // El cuadradito que sigue al cursor
+    rectMode(CORNER);
+  }
+
+  // Verificamos si la página actual tiene un enemigo asignado y si está vivo
+  if (enemigos[pagina] !== undefined && enemigos[pagina] === true) {
+    fill(255, 100, 100);
+    noStroke();
+    ellipse(500, 200, 60, 60); 
+    
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(10);
+    text("ENEMIGO", 500, 200);
+  }
+
+
+  //SELECCIÓN DE OBJETOS RECOMPENSA (Solo en 5, 9 y 10 CUANDO EL ENEMIGO MUERE)
+ if ((pagina == 5 && enemigos[5] === false && inventario.length == 1) ||
+      (pagina == 9 && enemigos[9] === false && inventario.length == 2) ||
+      (pagina == 10 && enemigos[10] === false && inventario.length == 2)) {
+        
+    textAlign(CENTER, CENTER);
+    textSize(12);
+    fill(255);
+    text("Elige un objeto para tu inventario:", 300, 150);
+
+    // Objeto A (Rojo)
+    fill(255, 0, 0);
+    ellipse(200, 200, 40, 40);
+    
+    // Objeto B (Azul)
+    fill(0, 0, 255);
+    ellipse(400, 200, 40, 40);
+  }
+
+
+  // --- DIBUJO DINÁMICO DE LOS OBJETOS EQUIPADOS ---
+
+  // CASILLERO 1 (Índice 0): Tu objeto inicial (Verde)
+  if (inventario.length > 0) {
+    fill(0, 255, 0); 
+    rect(25, 65, 50, 50); 
+  }
+  
+  // pintamos el 2do objeto
+  if (inventario.length > 1) {
+    if (inventario[1] === "ObjetoRojo") {
+      fill(255, 0, 0); // Si elegiste Rojo, se pinta rojo
+    } else if (inventario[1] === "ObjetoAzul") {
+      fill(0, 0, 255); // Si elegiste Azul, se pinta azul
+    }
+    rect(25, 130, 50, 50); // Se dibuja en el segundo slot
+  }
+  
+  // pintamos el tercer objeto
+  if (inventario.length > 2) {
+    if (inventario[2] === "ObjetoRojo") {
+      fill(255, 0, 0);
+    } else if (inventario[2] === "ObjetoAzul") {
+      fill(0, 0, 255);
+    }
+    rect(25, 195, 50, 50); // Se dibuja en el tercer slot
+  }
 
   console.log (pagina);
 
@@ -158,7 +250,7 @@ function crearGaleria () {
 
 
       galeria = [
-
+          {}, // puse un valor vacio q podemos llenar con un PLAY o algo asi
           {imagen: imagen1, texto: "texto1",},
           {imagen: imagen2, texto: "texto2",},
           {imagen: imagen3, texto: "texto3",},
@@ -231,13 +323,81 @@ y poder probarlo bien*/
 
  function mousePressed () {
 
+
+// clcik inventario slot 1
+      if (mouseX > 25 && mouseX < 75 && mouseY > 65 && mouseY < 115) {
+        if (inventario.length > 0) {
+          if (objetoSostenido === null) {
+            objetoSostenido = inventario[0]; // Agarramos el Objeto Inicial (Verde)
+          } else {
+            objetoSostenido = null; // Lo soltamos
+          }
+        }
+        return;
+      }
+
+      // clcik inventario slot 2
+      if (mouseX > 25 && mouseX < 75 && mouseY > 130 && mouseY < 180) {
+        if (inventario.length > 1) {
+          if (objetoSostenido === null) {
+            objetoSostenido = inventario[1]; // Agarramos el objeto que elegiste en la pág 5
+          } else {
+            objetoSostenido = null;
+          }
+        }
+        return;
+      }
+
+      // clcik inventario slot 3
+      if (mouseX > 25 && mouseX < 75 && mouseY > 195 && mouseY < 245) {
+        if (inventario.length > 2) {
+          if (objetoSostenido === null) {
+            objetoSostenido = inventario[2]; // Agarramos el objeto que elegiste en la pág 9
+          } else {
+            objetoSostenido = null;
+          }
+        }
+        return;
+      }
+
+      //ATACAR AL ENEMIGO
+      // Si la página actual tiene un enemigo y está vivo, y además tenemos un objeto en la mano
+      if (enemigos[pagina] === true && objetoSostenido !== null) {
+        let distEnemigo = dist(mouseX, mouseY, 500, 200);
+        
+        if (distEnemigo < 30) {
+          enemigos[pagina] = false; // Derrotamos SOLO al enemigo de esta página
+          objetoSostenido = null;   // Soltamos el objeto
+          return; 
+        }
+      }
+
+      // Solo permite elegir si el enemigo muere
+        if ((pagina == 5 && enemigos[5] === false && inventario.length == 1) ||
+          (pagina == 9 && enemigos[9] === false && inventario.length == 2) ||
+          (pagina == 10 && enemigos[10] === false && inventario.length == 2)) {
+        
+        let distObjetoA = dist(mouseX, mouseY, 200, 200);
+        let distObjetoB = dist(mouseX, mouseY, 400, 200);
+        
+        if (distObjetoA < 20) {
+          inventario.push("ObjetoRojo"); // Se guarda en el array
+          return; // Al meter el objeto, inventario.length sube y todo desaparece en el próximo frame
+        }
+        
+        if (distObjetoB < 20) {
+          inventario.push("ObjetoAzul"); // Se guarda en el array
+          return;
+        }
+      }
+
       let radioBoton1 = 30;
       let boton1 = dist(mouseX, mouseY, 250, 380);
 
       let radioBoton2 = 30;
       let boton2 = dist(mouseX, mouseY, 350, 380);
 
-      if (boton1 < radioBoton1 && pagina < 12) {
+      if (boton1 < radioBoton1 && pagina < 13) {
 
         pasarPagina ();
 
