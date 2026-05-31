@@ -89,29 +89,52 @@ function draw() {
   //texto botones
   textAlign(CENTER, CENTER);
   textSize(12);
-  text("¿Qué decides hacer?", 300, 355);
+  text(galeria[pagina].indicacion, 300, 355);
 
 
 
   //botones tomy. hice un rect con border redondeados.
-  /*HAY QUE HACER Q EL TEXTO DE LOS BOTONS Y EL NARRATIVO CAMBIE SEGUN LA PAGINA Y EL CONTENIDO */
-  // boton izuqierda
-  fill(220);
-  rectMode(CENTER);
-  rect(250, 380, 80, 23, 10);
-  
-  // boton derecha
-  rect(350, 380, 80, 23, 10);
 
-  
-  rectMode(CORNER); // reseteo el modo de rect para no romper otras cosas
+  if (pagina == 3 || pagina == 5 || pagina == 8 || pagina == 11) {
+      // boton izuqierda
+        fill(220);
+        rectMode(CENTER);
+        rect(250, 380, 80, 23, 10);
+        
+        // boton derecha
+        rect(350, 380, 80, 23, 10);
 
-  // Texto de los botones
-  textAlign(CENTER, CENTER);
-  fill(0); // Texto negro adentro de los botones
-  textSize(11);
-  text("Entrar", 250, 380);
-  text("Ignorar", 350, 380);
+        
+        rectMode(CORNER); // reseteo el modo de rect para no romper otras cosas
+
+        // Texto de los botones
+        textAlign(CENTER, CENTER);
+        fill(0); // Texto negro adentro de los botones
+        textSize(11);
+        text(galeria[pagina].botonA, 250, 380);
+        text(galeria[pagina].botonB, 350, 380);
+
+  } else if (pagina != 4 && pagina != 6 && pagina != 12 && pagina != 13) {
+
+
+      // boton izuqierda
+        fill(220);
+        rectMode(CENTER);
+        rect(300, 380, 80, 23, 10);
+        
+
+        
+        rectMode(CORNER); // reseteo el modo de rect para no romper otras cosas
+
+        // Texto de los botones
+        textAlign(CENTER, CENTER);
+        fill(0); // Texto negro adentro de los botones
+        textSize(11);
+        text(galeria[pagina].botonA, 300, 380);
+
+
+  } 
+  
 
 
 
@@ -251,19 +274,19 @@ function crearGaleria () {
 
       galeria = [
           {}, // puse un valor vacio q podemos llenar con un PLAY o algo asi
-          {imagen: imagen1, texto: "texto1",},
-          {imagen: imagen2, texto: "texto2",},
-          {imagen: imagen3, texto: "texto3",},
-          {imagen: imagen4, texto: "texto4",},
-          {imagen: imagen5, texto: "texto5",},
-          {imagen: imagen6, texto: "texto6",},
-          {imagen: imagen7, texto: "texto7",},
-          {imagen: imagen8, texto: "texto8",},
-          {imagen: imagen9, texto: "texto9",},
-          {imagen: imagen10, texto: "texto10",},
-          {imagen: imagen11, texto: "texto11",},
-          {imagen: imagen12, texto: "texto12",},
-          {imagen: imagen13, texto: "texto13",},
+          {imagen: imagen1, texto: "texto1", botonA: "Seguir", botonB: "", indicacion: "Apreta el botón para continuar"},
+          {imagen: imagen2, texto: "texto2", botonA: "Seguir", botonB: "", indicacion: "Apreta el botón para continuar"},
+          {imagen: imagen3, texto: "texto3", botonA: "Volver", botonB: "Entrar", indicacion: "¿Qué decides hacer?"},
+          {imagen: imagen4, texto: "texto4", botonA: "Fin", botonB: "", indicacion: "Fin"},
+          {imagen: imagen5, texto: "texto5", botonA: "Salir", botonB: "Seguir", indicacion: "¿Qué decides hacer?"},
+          {imagen: imagen6, texto: "texto6", botonA: "Fin", botonB: "", indicacion: "Fin"},
+          {imagen: imagen7, texto: "texto7", botonA: "Seguir", botonB: "", indicacion: "Apreta el botón para continuar"},
+          {imagen: imagen8, texto: "texto8", botonA: "Derecha", botonB: "Izquierda", indicacion: "¿Qué decides hacer?"},
+          {imagen: imagen9, texto: "texto9", botonA: "Seguir", botonB: "", indicacion: "Apreta el botón para continuar"},
+          {imagen: imagen10, texto: "texto10", botonA: "Seguir", botonB: "", indicacion: "Apreta el botón para continuar"},
+          {imagen: imagen11, texto: "texto11", botonA: "Salir", botonB: "Seguir", indicacion: "¿Qué decides hacer?"},
+          {imagen: imagen12, texto: "texto12", botonA: "Fin", botonB: "", indicacion: "Fin"},
+          {imagen: imagen13, texto: "texto13", botonA: "Fin", botonB: "", indicacion: "Fin"},
 
 
       ]
@@ -286,31 +309,31 @@ function pasarPagina () {
 
 function pasarPagina5 () {
 
-  pagina = 4;
+  pagina = 5;
 
 }
 
 function pasarPagina8 () {
 
-  pagina = 7;
+  pagina = 8;
 
 }
 
 function pasarPagina10 () {
 
-  pagina = 9;
+  pagina = 10;
 
 }
 
 function pasarPagina11 () {
 
-  pagina = 10;
+  pagina = 11;
 
 }
 
 function pasarPagina13 () {
 
-  pagina = 12;
+  pagina = 13;
 
 }
 
@@ -391,17 +414,38 @@ y poder probarlo bien*/
         }
       }
 
+
+      //__________________________BOTONES PARA PASAR PAGINA_________________________
+
       let radioBoton1 = 30;
-      let boton1 = dist(mouseX, mouseY, 250, 380);
-
       let radioBoton2 = 30;
-      let boton2 = dist(mouseX, mouseY, 350, 380);
+      let boton1;
+      let boton2
 
-      if (boton1 < radioBoton1 && pagina < 13) {
+
+      if (pagina == 3 || pagina == 5 || pagina == 8 || pagina == 11) {
+
+             boton1 = dist(mouseX, mouseY, 250, 380);
+
+             boton2 = dist(mouseX, mouseY, 350, 380);
+
+      } else {
+
+          boton1 = dist(mouseX, mouseY, 300, 380);
+
+      }
+
+      
+
+      if (boton1 < radioBoton1 && pagina == 9) {
+
+        pasarPagina11 ();
+
+      } else if (boton1 < radioBoton1 && pagina != 4 && pagina != 6 && pagina != 12 && pagina != 13) {
 
         pasarPagina ();
 
-      } else if  (boton2 < radioBoton2 && pagina == 2) {
+      } else if  (boton2 < radioBoton2 && pagina == 3) {
 
         pasarPagina5 ();
 
@@ -409,15 +453,11 @@ y poder probarlo bien*/
 
         pasarPagina8 ();
 
-      } else if (boton2 < radioBoton2 && pagina == 7) {
+      } else if (boton2 < radioBoton2 && pagina == 8) {
 
         pasarPagina10 ();
 
-      } else if (boton1 < radioBoton1 && pagina == 8) {
-
-        pasarPagina11 ();
-
-      } else if (boton2 < radioBoton2 && pagina == 10) {
+      } else if (boton2 < radioBoton2 && pagina == 11) {
 
         pasarPagina13 ();
 
