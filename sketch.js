@@ -1,7 +1,8 @@
 let galeria;
 let pagina = 1;
 let fuente;
-let inventario = ["objeto inicial"];
+//let inventario = ["objeto inicial"];
+let inventario = ["objetoInicial"];
 let objetoSostenido = null;
 let enemigos = {
   5: true,  // Enemigo de la página 5 vivo
@@ -24,6 +25,10 @@ let imagen11;
 let imagen12;
 let imagen13;
 
+let objeto1;
+let objeto2;
+let objeto3; 
+
 
 
 function preload () {
@@ -41,7 +46,10 @@ function preload () {
     imagen11 = loadImage ("img/11.jpg");
     imagen12 = loadImage ("img/12.jpg");
     imagen13 = loadImage ("img/13.jpg");
-    fuente = loadFont("fonts/Metamorphous-Regular.ttf")
+    objeto1 = loadImage("img/espada-finn.png");
+    objeto2 = loadImage("img/escudo-finn.png");
+    objeto3 = loadImage("img/guante-finn.png");
+    fuente = loadFont("fonts/Metamorphous-Regular.ttf");
 
 
 }
@@ -138,10 +146,6 @@ function draw() {
 
 
 
-
-
-
-
   // ESTE ES EL INVENTARIO DE OBJETOS, SI AGARRAMOS UN OBJETO LO TENDRIAMOS Q UBICAR EN ESTOS CUADRADOS
   textAlign(LEFT, TOP);
   textSize(14); 
@@ -160,27 +164,35 @@ function draw() {
   rect(25, 195, 50, 50);
 
   if (inventario.length > 0) {
-    fill(0, 255, 0); // Lo pintamos de verde por ahora para reconocerlo CANDE TENDRIAS Q BORRARLO Y CAMBIARLO POR UN PNG ACA Y EN EL RESTO DE OBJ
-    rect(25, 65, 50, 50); // Se dibuja sobre el primer recuadro gris
+    //fill(0, 255, 0); // Lo pintamos de verde por ahora para reconocerlo CANDE TENDRIAS Q BORRARLO Y CAMBIARLO POR UN PNG ACA Y EN EL RESTO DE OBJ
+    //rect(25, 65, 50, 50); // Se dibuja sobre el primer recuadro gris
+    imageMode(CORNER);
+    image(objeto1, 25, 65, 50, 50);
   }
 
 
   // esto habria q cambiarlo por imagenes
   if (objetoSostenido !== null) {
-    
+     imageMode(CENTER);
+
     // Le asignamos el color según el objeto que tengamos agarrado
-    if (objetoSostenido === "ObjetoInicial") {
-      fill(0, 255, 0); // Verde
+    if (objetoSostenido === "objetoInicial") {
+      //fill(0, 255, 0); // Verde
+      image(objeto1, mouseX, mouseY, 35, 35);
     } else if (objetoSostenido === "ObjetoRojo") {
-      fill(255, 0, 0); // Rojo
+      //fill(255, 0, 0); // Rojo
+      image(objeto2, mouseX, mouseY, 35, 35);
     } else if (objetoSostenido === "ObjetoAzul") {
-      fill(0, 0, 255); // Azul
+      //fill(0, 0, 255); // Azul
+      image(objeto3, mouseX, mouseY, 35, 35);
     }
 
     noStroke();
-    rectMode(CENTER);
-    rect(mouseX, mouseY, 30, 30); // El cuadradito que sigue al cursor
+    //rectMode(CENTER);
+    //rect(mouseX, mouseY, 30, 30); // El cuadradito que sigue al cursor
     rectMode(CORNER);
+    
+    imageMode(CORNER);
   }
 
   // Verificamos si la página actual tiene un enemigo asignado y si está vivo
@@ -220,28 +232,39 @@ function draw() {
 
   // CASILLERO 1 (Índice 0): Tu objeto inicial (Verde)
   if (inventario.length > 0) {
-    fill(0, 255, 0); 
-    rect(25, 65, 50, 50); 
+    //fill(0, 255, 0); 
+    //rect(25, 65, 50, 50); 
+    imageMode(CORNER);
+    image(objeto1, 25, 65, 50, 50);
   }
   
   // pintamos el 2do objeto
   if (inventario.length > 1) {
     if (inventario[1] === "ObjetoRojo") {
-      fill(255, 0, 0); // Si elegiste Rojo, se pinta rojo
+      //fill(255, 0, 0); // Si elegiste Rojo, se pinta rojo
+      imageMode(CORNER);
+      image(objeto2, 25, 130, 50, 50);
     } else if (inventario[1] === "ObjetoAzul") {
-      fill(0, 0, 255); // Si elegiste Azul, se pinta azul
+      //fill(0, 0, 255); // Si elegiste Azul, se pinta azul
+      imageMode(CORNER);
+      image(objeto3, 25, 195, 50, 50);
     }
-    rect(25, 130, 50, 50); // Se dibuja en el segundo slot
+    //rect(25, 130, 50, 50); // Se dibuja en el segundo slot
   }
   
   // pintamos el tercer objeto
   if (inventario.length > 2) {
     if (inventario[2] === "ObjetoRojo") {
-      fill(255, 0, 0);
+      //fill(255, 0, 0);
+      imageMode(CORNER);
+      image(objeto2, 25, 130, 50, 50);
     } else if (inventario[2] === "ObjetoAzul") {
-      fill(0, 0, 255);
+      //fill(0, 0, 255);
+      imageMode(CORNER);
+      image(objeto3, 25, 195, 50, 50);
     }
     rect(25, 195, 50, 50); // Se dibuja en el tercer slot
+    image(objeto3, 25, 195, 50, 50);
   }
 
   console.log (pagina);
@@ -281,7 +304,7 @@ function crearGaleria () {
           {imagen: imagen5, texto: "texto5", botonA: "Salir", botonB: "Seguir", indicacion: "¿Qué decides hacer?"},
           {imagen: imagen6, texto: "texto6", botonA: "Fin", botonB: "", indicacion: "Fin"},
           {imagen: imagen7, texto: "texto7", botonA: "Seguir", botonB: "", indicacion: "Apreta el botón para continuar"},
-          {imagen: imagen8, texto: "texto8", botonA: "Derecha", botonB: "Izquierda", indicacion: "¿Qué decides hacer?"},
+          {imagen: imagen8, texto: "texto8", botonA: "Izquierda", botonB: "Derecha", indicacion: "¿Qué decides hacer?"},
           {imagen: imagen9, texto: "texto9", botonA: "Seguir", botonB: "", indicacion: "Apreta el botón para continuar"},
           {imagen: imagen10, texto: "texto10", botonA: "Seguir", botonB: "", indicacion: "Apreta el botón para continuar"},
           {imagen: imagen11, texto: "texto11", botonA: "Salir", botonB: "Seguir", indicacion: "¿Qué decides hacer?"},
